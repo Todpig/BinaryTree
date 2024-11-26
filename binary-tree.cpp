@@ -82,7 +82,38 @@ void printTree(Node *root)
     }
 }
 
-void createRoot()
+int getSize(Node *root)
+{
+    if (root == nullptr)
+    {
+        return 0;
+    }
+
+    int leftSize = getSize(root->left);
+    int rightSize = getSize(root->right);
+
+    return leftSize + rightSize + 1;
+}
+
+int getAllSheets (Node *root)
+{
+    if (root == nullptr)
+    {
+        return 0;
+    }
+
+    if (root->left == nullptr && root->right == nullptr)
+    {
+        return 1;
+    }
+
+    int leftSheets = getAllSheets(root->left);
+    int rightSheets = getAllSheets(root->right);
+
+    return leftSheets + rightSheets;
+}
+
+Node *createRoot()
 {
     Node *root = nullptr;
     int rootValue, count;
@@ -97,7 +128,7 @@ void createRoot()
     for (int i = 0; i < count; i++)
     {
         int value;
-        cout << "Enter a value for the node: ";
+        cout << "Enter a value for the node" << i + 1 << " : ";
         cin >> value;
         push(value, root);
     }
@@ -105,10 +136,16 @@ void createRoot()
     cout << "Tree in-order traversal: ";
     printTree(root);
     cout << endl;
+
+    return root;
 }
 
 int main()
 {
-    createRoot();
+    Node *root = createRoot();
+    int size = getSize(root);
+    int sheets = getAllSheets(root);
+    cout << "Size of the tree: " << size << endl;
+    cout << "Number of sheets: " << sheets << endl;
     return 0;
 }
