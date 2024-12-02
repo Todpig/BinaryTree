@@ -72,13 +72,17 @@ void push(int value, Node *&root)
     }
 }
 
-void printTree(Node *root)
+void printTree(Node *root, int level = 0)
 {
     if (root != nullptr)
     {
-        printTree(root->right);
-        cout << root->value << " ";
-        printTree(root->left);
+        for (int i = 0; i < level; i++)
+        {
+            cout << "-";
+        }
+        cout << root->value << endl;
+        printTree(root->left, level + 1);
+        printTree(root->right, level + 1);
     }
 }
 
@@ -95,7 +99,7 @@ int getSize(Node *root)
     return leftSize + rightSize + 1;
 }
 
-int getAllSheets (Node *root)
+int getAllSheets(Node *root)
 {
     if (root == nullptr)
     {
@@ -133,7 +137,6 @@ Node *createRoot()
         push(value, root);
     }
 
-    cout << "Tree in-order traversal: ";
     printTree(root);
     cout << endl;
 
