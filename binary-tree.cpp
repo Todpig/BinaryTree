@@ -1,4 +1,5 @@
 #include <iostream>
+#include <random>
 using namespace std;
 
 struct Node
@@ -198,6 +199,7 @@ void menu(Node *&root)
         cout << "5. Buscar valor mínimo\n";
         cout << "6. Buscar valor máximo\n";
         cout << "7. Remover um valor\n";
+        cout << "8. Gerar árvore com valores aleatórios\n";
         cout << "0. Sair\n";
         cout << "Escolha uma opção: ";
         cin >> choice;
@@ -237,6 +239,24 @@ void menu(Node *&root)
             cin >> value;
             root = remove(value, root);
             break;
+        case 8:
+        {
+            random_device rd;
+            mt19937 gen(rd());
+            uniform_int_distribution<> sizeDist(5, 15);
+            uniform_int_distribution<> valueDist(1, 100);
+
+            int treeSize = sizeDist(gen);
+            cout << "Gerando uma árvore com " << treeSize << " valores aleatórios...\n";
+
+            for (int i = 0; i < treeSize; i++)
+            {
+                int randomValue = valueDist(gen);
+                push(randomValue, root);
+            }
+
+            break;
+        }
         case 0:
             cout << "Saindo...\n";
             break;
