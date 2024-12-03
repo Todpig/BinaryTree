@@ -117,38 +117,139 @@ int getAllSheets(Node *root)
     return leftSheets + rightSheets;
 }
 
-Node *createRoot()
+Node *searchMin(Node *root)
 {
-    Node *root = nullptr;
-    int rootValue, count;
+    if (root == nullptr)
+        return nullptr;
 
-    cout << "Enter the value for the root node: ";
-    cin >> rootValue;
-    push(rootValue, root);
+    if (root->left == nullptr)
+        return root;
 
-    cout << "Enter the number of nodes to add: ";
-    cin >> count;
+    return searchMin(root->left);
+}
 
-    for (int i = 0; i < count; i++)
+Node *searchMax(Node *root)
+{
+    if (root == nullptr)
+        return nullptr;
+
+    if (root->right == nullptr)
+        return root;
+
+    return searchMax(root->right);
+}
+
+Node *remove(int value, Node *root)
+{
+    if (root == nullptr)
     {
-        int value;
-        cout << "Enter a value for the node" << i + 1 << " : ";
-        cin >> value;
-        push(value, root);
+        cout << "Value not found in the tree.\n";
+        return nullptr;
     }
 
-    printTree(root);
-    cout << endl;
+    if (value < root->value)
+    {
+        root->left = remove(value, root->left);
+    }
+    else if (value > root->value)
+    {
+        root->right = remove(value, root->right);
+    }
+    else
+    {
+        if (root->left == nullptr && root->right == nullptr)
+        {
+            delete root;
+            return nullptr;
+        }
 
+        else if (root->left == nullptr)
+        {
+            Node *temp = root->right;
+            delete root;
+            return temp;
+        }
+        else if (root->right == nullptr)
+        {
+            Node *temp = root->left;
+            delete root;
+            return temp;
+        }
+        else
+        {
+            Node *minNode = searchMin(root->right);
+            root->value = minNode->value;
+            root->right = remove(minNode->value, root->right);
+        }
+    }
     return root;
+}
+
+void menu(Node *&root)
+{
+    int choice;
+    do
+    {
+        cout << "\nMenu de opções:\n";
+        cout << "1. Inserir um valor\n";
+        cout << "2. Imprimir a árvore\n";
+        cout << "3. Tamanho da árvore\n";
+        cout << "4. Número de folhas\n";
+        cout << "5. Buscar valor mínimo\n";
+        cout << "6. Buscar valor máximo\n";
+        cout << "7. Remover um valor\n";
+        cout << "0. Sair\n";
+        cout << "Escolha uma opção: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            int value;
+            cout << "Digite um valor para inserir: ";
+            cin >> value;
+            push(value, root);
+            break;
+        case 2:
+            cout << "Árvore:\n";
+            printTree(root);
+            break;
+        case 3:
+            cout << "Tamanho da árvore: " << getSize(root) << endl;
+            break;
+        case 4:
+            cout << "Número de folhas: " << getAllSheets(root) << endl;
+            break;
+        case 5:
+            if (root != nullptr)
+                cout << "Valor mínimo: " << searchMin(root)->value << endl;
+            else
+                cout << "Árvore vazia.\n";
+            break;
+        case 6:
+            if (root != nullptr)
+                cout << "Valor máximo: " << searchMax(root)->value << endl;
+            else
+                cout << "Árvore vazia.\n";
+            break;
+        case 7:
+            cout << "Digite o valor para remover: ";
+            cin >> value;
+            root = remove(value, root);
+            break;
+        case 0:
+            cout << "Saindo...\n";
+            break;
+        default:
+            cout << "Opção inválida. Tente novamente.\n";
+            break;
+        }
+    } while (choice != 0);
 }
 
 int main()
 {
-    Node *root = createRoot();
-    int size = getSize(root);
-    int sheets = getAllSheets(root);
-    cout << "Size of the tree: " << size << endl;
-    cout << "Number of sheets: " << sheets << endl;
+    Node *root = nullptr;
+    menu(root);
     return 0;
 }
