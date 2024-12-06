@@ -14,6 +14,75 @@ bool isEmpty(Node *root)
     return (root == nullptr);
 }
 
+void printLevel(Node *root, int level)
+{
+    if (root == nullptr)
+        return;
+
+    if (level == 1)
+    {
+        cout << root->value << "-";
+    }
+    else if (level > 1)
+    {
+        printLevel(root->left, level - 1);
+        printLevel(root->right, level - 1);
+    }
+}
+
+void visit(Node *root)
+{
+    cout << root->value << " ";
+}
+
+void symmetricalOrder(Node *root)
+{
+    if (root->left != nullptr)
+        symmetricalOrder(root->left);
+    visit(root);
+    if (root->right != nullptr)
+        symmetricalOrder(root->right);
+}
+
+void preOrder(Node *root)
+{
+    visit(root);
+    if (root->left != nullptr)
+        preOrder(root->left);
+    if (root->right != nullptr)
+        preOrder(root->right);
+}
+
+void postOrder(Node *root)
+{
+    if (root->left != nullptr)
+        postOrder(root->left);
+    if (root->right != nullptr)
+        postOrder(root->right);
+    visit(root);
+}
+
+int treeHeight(Node *root)
+{
+    if (root == nullptr)
+        return 0;
+
+    int leftHeight = treeHeight(root->left);
+    int rightHeight = treeHeight(root->right);
+
+    return max(leftHeight, rightHeight) + 1;
+}
+
+void queueTree(Node *root)
+{
+    int height = treeHeight(root);
+
+    for (int i = 1; i <= height; i++)
+    {
+        printLevel(root, i);
+    }
+}
+
 Node *search(int value, Node *root)
 {
     Node *current = root;
@@ -200,6 +269,11 @@ void menu(Node *&root)
         cout << "6. Buscar valor máximo\n";
         cout << "7. Remover um valor\n";
         cout << "8. Gerar árvore com valores aleatórios\n";
+        cout << "9. Enfileirar árvore\n";
+        cout << "10. Altura da árvore\n";
+        cout << "11. Travessia em ordem simétrica\n";
+        cout << "12. Travessia em pré-ordem\n";
+        cout << "13. Travessia em pós-ordem\n";
         cout << "0. Sair\n";
         cout << "Escolha uma opção: ";
         cin >> choice;
@@ -257,6 +331,28 @@ void menu(Node *&root)
 
             break;
         }
+        case 9:
+            cout << "Árvore: ";
+            queueTree(root);
+            break;
+        case 10:
+            cout << "Altura da árvore: " << treeHeight(root) << endl;
+            break;
+        case 11:
+            cout << "Travessia em ordem simétrica: ";
+            symmetricalOrder(root);
+            cout << endl;
+            break;
+        case 12:
+            cout << "Travessia em pré-ordem: ";
+            preOrder(root);
+            cout << endl;
+            break;
+        case 13:
+            cout << "Travessia em pós-ordem: ";
+            postOrder(root);
+            cout << endl;
+            break;
         case 0:
             cout << "Saindo...\n";
             break;
