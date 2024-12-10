@@ -83,7 +83,7 @@ void menu(Node *&root)
             queueTree(root);
             break;
         case 10:
-            cout << "Altura da árvore: " << treeHeight(root) << endl;
+            cout << "Altura da árvore: " << (treeHeight(root) - 1) << endl;
             break;
         case 11:
             cout << "Travessia em ordem simétrica: ";
