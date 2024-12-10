@@ -27,5 +27,6 @@ int getAllSheets(Node *root);
 Node *searchMin(Node *root);
 Node *searchMax(Node *root);
 Node *remove(int value, Node *root);
+void levelOrder(Node *root);
 
 #endif

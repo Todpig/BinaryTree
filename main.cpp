@@ -20,6 +20,7 @@ void menu(Node *&root)
         cout << "11. Travessia em ordem simétrica\n";
         cout << "12. Travessia em pré-ordem\n";
         cout << "13. Travessia em pós-ordem\n";
+        cout << "14. Travessia em nivel\n";
         cout << "0. Sair\n";
         cout << "Escolha uma opção: ";
         cin >> choice;
@@ -97,6 +98,11 @@ void menu(Node *&root)
         case 13:
             cout << "Travessia em pós-ordem: ";
             postOrder(root);
+            cout << endl;
+            break;
+        case 14:
+            cout << "Travessia em nível: ";
+            levelOrder(root);
             cout << endl;
             break;
         case 0:

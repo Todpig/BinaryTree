@@ -1,6 +1,7 @@
 #include <iostream>
 #include <random>
 #include "binary-tree.hpp"
+#include <queue>
 using namespace std;
 
 bool isEmpty(Node *root)
@@ -247,4 +248,20 @@ Node *remove(int value, Node *root)
         }
     }
     return root;
+}
+
+void levelOrder(Node *root)
+{
+    queue<Node *> q;
+    q.push(root);
+    while (!q.empty())
+    {
+        Node *current = q.front();
+        q.pop();
+        cout << current->value << " ";
+        if (current->left != nullptr)
+            q.push(current->left);
+        if (current->right != nullptr)
+            q.push(current->right);
+    }
 }
